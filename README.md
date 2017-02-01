@@ -1,4 +1,7 @@
-# Procurios Middleware Dispatcher
+# Middleware Dispatcher
+[![Build Status](https://travis-ci.org/procurios/middleware-dispatcher.svg?branch=master)](https://travis-ci.org/procurios/middleware-dispatcher)
+[![Coverage Status](https://coveralls.io/repos/github/procurios/middleware-dispatcher/badge.svg?branch=master)](https://coveralls.io/github/procurios/middleware-dispatcher?branch=master)
+
 Simple PSR-15 compliant middleware dispatcher
 
 ## Goal
