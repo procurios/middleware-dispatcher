@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="./test/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="procurios/middleware-dispatcher Test Suite">
+            <directory>./test/</directory>
+        </testsuite>
+    </testsuites>
+
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
