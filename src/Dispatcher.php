@@ -17,7 +17,16 @@ final class Dispatcher implements StackInterface
 {
     /** @var ServerMiddlewareInterface[]|ClientMiddlewareInterface[] */
     private $queue = [];
+    private $fallbackHandler;
 
+    /**
+    * Generation of the "fallback" response is delegated to the application developer
+    */
+    public function __construct(MiddlewareInterface $fallbackHandler)
+    {
+        $this->fallbackHandler = $fallbackHandler;
+    }
+    
     /**
      * @inheritdoc
      * @return static
@@ -79,7 +88,7 @@ final class Dispatcher implements StackInterface
         $frame = new CallableBasedDelegate(function (RequestInterface $request) use (&$queue, &$frame) {
             $middleware = array_shift($queue);
             if (null === $middleware) {
-                throw new QueueIsEmpty();
+                return $this->fallbackHandler->handle($request);
             }
 
             return $middleware->process($request, $frame);
