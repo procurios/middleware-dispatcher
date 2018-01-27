@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CallableBasedDelegate implements RequestHandlerInterface
+class CallableBasedRequestHandler implements RequestHandlerInterface
 {
     /** @var callable */
     private $callback;

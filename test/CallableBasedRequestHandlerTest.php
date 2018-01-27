@@ -5,11 +5,11 @@
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
 use PHPUnit\Framework\TestCase;
-use Procurios\Http\MiddlewareDispatcher\CallableBasedDelegate;
+use Procurios\Http\MiddlewareDispatcher\CallableBasedRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class CallableBasedDelegateTest extends TestCase
+class CallableBasedRequestHandlerTest extends TestCase
 {
     public function testThatCallableBasedDelegateCallsCallable()
     {
@@ -25,7 +25,7 @@ class CallableBasedDelegateTest extends TestCase
             return $response;
         };
 
-        $delegate = new CallableBasedDelegate($callback);
+        $delegate = new CallableBasedRequestHandler($callback);
         $this->assertSame($response, $delegate->handle($expectedRequest));
         $this->assertTrue($isCalled);
     }

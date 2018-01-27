@@ -6,12 +6,12 @@ namespace Procurios\Http\MiddlewareDispatcher\test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use Procurios\Http\MiddlewareDispatcher\CallableDelegate;
+use Procurios\Http\MiddlewareDispatcher\CallableRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CallableDelegateTest extends TestCase
+class CallableRequestHandlerTest extends TestCase
 {
     public function testThatCallableDelegatePassesNextCallToTargetDelegate(): void
     {
@@ -29,7 +29,7 @@ class CallableDelegateTest extends TestCase
             ->willReturn($response)
         ;
 
-        $this->assertSame($response, (new CallableDelegate($delegate))->handle($request));
+        $this->assertSame($response, (new CallableRequestHandler($delegate))->handle($request));
     }
 
     public function testThatCallableDelegatePassesDirectInvocationToTargetDelegate()
@@ -48,6 +48,6 @@ class CallableDelegateTest extends TestCase
             ->willReturn($response)
         ;
 
-        $this->assertSame($response, \call_user_func(new CallableDelegate($delegate), $request));
+        $this->assertSame($response, \call_user_func(new CallableRequestHandler($delegate), $request));
     }
 }

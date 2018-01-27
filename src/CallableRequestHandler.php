@@ -9,25 +9,25 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Delegate that can be used as a callable
+ * RequestHandler that can be used as a callable to comply with older middleware implementations
  */
-class CallableDelegate implements RequestHandlerInterface
+class CallableRequestHandler implements RequestHandlerInterface
 {
     /** @var RequestHandlerInterface */
-    private $delegate;
+    private $handler;
 
-    public function __construct(RequestHandlerInterface $delegate)
+    public function __construct(RequestHandlerInterface $handler)
     {
-        $this->delegate = $delegate;
+        $this->handler = $handler;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->delegate->handle($request);
+        return $this->handler->handle($request);
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->delegate->handle($request);
+        return $this->handler->handle($request);
     }
 }

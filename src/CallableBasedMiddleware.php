@@ -27,7 +27,7 @@ class CallableBasedMiddleware implements MiddlewareInterface
         return \call_user_func(
             $this->callback,
             $request,
-            new CallableDelegate($handler)
+            new CallableRequestHandler($handler)
         );
     }
 

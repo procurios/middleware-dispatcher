@@ -60,7 +60,7 @@ final class Dispatcher implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queue = $this->queue;
-        $handler = new CallableBasedDelegate(function (ServerRequestInterface $request) use (&$queue, &$handler) {
+        $handler = new CallableBasedRequestHandler(function (ServerRequestInterface $request) use (&$queue, &$handler) {
             $middleware = array_shift($queue);
             if (null === $middleware) {
                 return $this->fallbackHandler->handle($request);
