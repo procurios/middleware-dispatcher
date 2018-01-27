@@ -4,41 +4,30 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Middleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Delegate that can be used as a callable
  */
-class CallableDelegate implements DelegateInterface
+class CallableDelegate implements RequestHandlerInterface
 {
-    /** @var DelegateInterface */
+    /** @var RequestHandlerInterface */
     private $delegate;
 
-    /**
-     * @param DelegateInterface $delegate
-     */
-    public function __construct(DelegateInterface $delegate)
+    public function __construct(RequestHandlerInterface $delegate)
     {
         $this->delegate = $delegate;
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return ResponseInterface
-     */
-    public function next(RequestInterface $request)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->delegate->next($request);
+        return $this->delegate->handle($request);
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return ResponseInterface
-     */
-    public function __invoke(RequestInterface $request)
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->delegate->next($request);
+        return $this->delegate->handle($request);
     }
 }

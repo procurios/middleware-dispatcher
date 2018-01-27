@@ -4,28 +4,22 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Middleware\DelegateInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class CallableBasedDelegate implements DelegateInterface
+class CallableBasedDelegate implements RequestHandlerInterface
 {
     /** @var callable */
     private $callback;
 
-    /**
-     * @param callable $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return mixed
-     */
-    public function next(RequestInterface $request)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return call_user_func($this->callback, $request);
+        return \call_user_func($this->callback, $request);
     }
 }

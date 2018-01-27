@@ -7,28 +7,27 @@ namespace Procurios\Http\MiddlewareDispatcher\test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedMiddleware;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Middleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableBasedMiddlewareTest extends TestCase
 {
     /**
      * @dataProvider provideCallbacks
-     * @param callable $callable
      */
-    public function testThatCallableIsSupported(callable $callable)
+    public function testThatCallableIsSupported(callable $callable): void
     {
-        /** @var RequestInterface $request */
-        $request = $this->createMock(RequestInterface::class);
+        /** @var ServerRequestInterface $request */
+        $request = $this->createMock(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
         $response = $this->createMock(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|DelegateInterface $delegate */
-        $delegate = $this->createMock(DelegateInterface::class);
+        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
             ->expects($this->any())
-            ->method('next')
+            ->method('handle')
             ->willReturn($response)
         ;
 
@@ -36,7 +35,7 @@ class CallableBasedMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($request, $delegate));
     }
 
-    public function testThatContainsWillReturnTrueForIdenticalCallback()
+    public function testThatContainsWillReturnTrueForIdenticalCallback(): void
     {
         $callback = function () {};
         $otherCallback = function () {};
@@ -47,10 +46,7 @@ class CallableBasedMiddlewareTest extends TestCase
         $this->assertFalse($middleware->contains($otherCallback));
     }
 
-    /**
-     * @return array
-     */
-    public function provideCallbacks()
+    public function provideCallbacks(): array
     {
         return [
             'callable next and no type hints' => [
@@ -60,21 +56,21 @@ class CallableBasedMiddlewareTest extends TestCase
             ],
 
             'callable next and type hints' => [
-                function (RequestInterface $request, callable $next) {
+                function (ServerRequestInterface $request, callable $next) {
                     return $next($request);
                 }
             ],
 
-            'DelegateInterface frame and no type hints' => [
+            'RequestHandlerInterface frame and no type hints' => [
                 function ($request, $frame) {
-                    /** @var DelegateInterface $frame */
-                    return $frame->next($request);
+                    /** @var RequestHandlerInterface $frame */
+                    return $frame->handle($request);
                 }
             ],
 
-            'DelegateInterface frame and type hints' => [
-                function (RequestInterface $request, DelegateInterface $frame) {
-                    return $frame->next($request);
+            'RequestHandlerInterface frame and type hints' => [
+                function (ServerRequestInterface $request, RequestHandlerInterface $frame) {
+                    return $frame->handle($request);
                 }
             ],
         ];

@@ -7,47 +7,47 @@ namespace Procurios\Http\MiddlewareDispatcher\test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Procurios\Http\MiddlewareDispatcher\CallableDelegate;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Middleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableDelegateTest extends TestCase
 {
-    public function testThatCallableDelegatePassesNextCallToTargetDelegate()
+    public function testThatCallableDelegatePassesNextCallToTargetDelegate(): void
     {
-        /** @var RequestInterface $request */
-        $request = $this->createMock(RequestInterface::class);
+        /** @var ServerRequestInterface $request */
+        $request = $this->createMock(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
         $response = $this->createMock(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|DelegateInterface $delegate */
-        $delegate = $this->createMock(DelegateInterface::class);
+        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
             ->expects($this->once())
-            ->method('next')
+            ->method('handle')
             ->with($request)
             ->willReturn($response)
         ;
 
-        $this->assertSame($response, (new CallableDelegate($delegate))->next($request));
+        $this->assertSame($response, (new CallableDelegate($delegate))->handle($request));
     }
 
     public function testThatCallableDelegatePassesDirectInvocationToTargetDelegate()
     {
-        /** @var RequestInterface $request */
-        $request = $this->createMock(RequestInterface::class);
+        /** @var ServerRequestInterface $request */
+        $request = $this->createMock(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
         $response = $this->createMock(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|DelegateInterface $delegate */
-        $delegate = $this->createMock(DelegateInterface::class);
+        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
             ->expects($this->once())
-            ->method('next')
+            ->method('handle')
             ->with($request)
             ->willReturn($response)
         ;
 
-        $this->assertSame($response, call_user_func(new CallableDelegate($delegate), $request));
+        $this->assertSame($response, \call_user_func(new CallableDelegate($delegate), $request));
     }
 }

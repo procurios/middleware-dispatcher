@@ -4,44 +4,30 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Middleware\DelegateInterface;
-use Psr\Http\Middleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Middleware based on a callable accepting a RequestInterface and either a callable or DelegateInterface
+ * Middleware based on a callable accepting a ServerRequestInterface and either a callable or CallableDelegate
  */
 class CallableBasedMiddleware implements MiddlewareInterface
 {
     /** @var callable */
     private $callback;
 
-    /**
-     * @param callable $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
-    /**
-     * Process a server request and return a response.
-     *
-     * Takes the incoming request and optionally modifies it before delegating
-     * to the next frame to get a response.
-     *
-     * @param RequestInterface $request
-     * @param DelegateInterface $frame
-     *
-     * @return ResponseInterface
-     */
-    public function process(RequestInterface $request, DelegateInterface $frame)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        return call_user_func(
+        return \call_user_func(
             $this->callback,
             $request,
-            new CallableDelegate($frame)
+            new CallableDelegate($handler)
         );
     }
 

@@ -4,33 +4,32 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Middleware\ClientMiddlewareInterface;
-use Psr\Http\Middleware\MiddlewareInterface;
-use Psr\Http\Middleware\ServerMiddlewareInterface;
-use Psr\Http\Middleware\StackInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-final class Dispatcher implements StackInterface
+final class Dispatcher implements RequestHandlerInterface
 {
-    /** @var ServerMiddlewareInterface[]|ClientMiddlewareInterface[] */
+    /** @var MiddlewareInterface[] */
     private $queue = [];
 
-    /**
-     * @inheritdoc
-     * @return static
-     */
-    public function withMiddleware(MiddlewareInterface $middleware)
+    /** @var RequestHandlerInterface */
+    private $fallbackHandler;
+
+    public function __construct(RequestHandlerInterface $fallbackHandler)
+    {
+        $this->fallbackHandler = $fallbackHandler;
+    }
+
+    public function withMiddleware(MiddlewareInterface $middleware): self
     {
         $clone = clone $this;
         $clone->queue[] = $middleware;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     * @return static
-     */
-    public function withoutMiddleware(MiddlewareInterface $middleware)
+    public function withoutMiddleware(MiddlewareInterface $middleware): self
     {
         $position = array_search($middleware, $this->queue, true);
         if ($position === false) {
@@ -42,20 +41,12 @@ final class Dispatcher implements StackInterface
         return $clone;
     }
 
-    /**
-     * @param callable $callback
-     * @return static
-     */
-    public function withCallback(callable $callback)
+    public function withCallback(callable $callback): self
     {
         return $this->withMiddleware(new CallableBasedMiddleware($callback));
     }
 
-    /**
-     * @param callable $callback
-     * @return static
-     */
-    public function withoutCallback(callable $callback)
+    public function withoutCallback(callable $callback): self
     {
         foreach ($this->queue as $position => $middleware) {
             if ($middleware instanceof CallableBasedMiddleware && $middleware->contains($callback)) {
@@ -66,22 +57,18 @@ final class Dispatcher implements StackInterface
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     * @throws QueueIsEmpty
-     */
-    public function process(RequestInterface $request)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queue = $this->queue;
-        $frame = new CallableBasedDelegate(function (RequestInterface $request) use (&$queue, &$frame) {
+        $handler = new CallableBasedDelegate(function (ServerRequestInterface $request) use (&$queue, &$handler) {
             $middleware = array_shift($queue);
             if (null === $middleware) {
-                throw new QueueIsEmpty();
+                return $this->fallbackHandler->handle($request);
             }
 
-            return $middleware->process($request, $frame);
+            return $middleware->process($request, $handler);
         });
 
-        return $frame->next($request);
+        return $handler->handle($request);
     }
 }
