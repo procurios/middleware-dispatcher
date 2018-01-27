@@ -31,8 +31,5 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "provide": {
-    "psr/http-middleware": "dev-develop"
-  }
+  "prefer-stable": true
 }
