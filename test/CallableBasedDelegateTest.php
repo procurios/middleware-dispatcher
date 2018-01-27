@@ -4,7 +4,7 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedDelegate;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  *
  */
-class CallableBasedDelegateTest extends PHPUnit_Framework_TestCase
+class CallableBasedDelegateTest extends TestCase
 {
     public function testThatCallableBasedDelegateCallsCallable()
     {

@@ -4,7 +4,7 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedMiddleware;
 use Procurios\Http\MiddlewareDispatcher\Dispatcher;
 use Procurios\Http\MiddlewareDispatcher\QueueIsEmpty;
@@ -18,7 +18,7 @@ use ReflectionObject;
 /**
  *
  */
-class DispatcherTest extends PHPUnit_Framework_TestCase
+class DispatcherTest extends TestCase
 {
     public function testThatEveryMiddlewareIsCalledInTheRightOrder()
     {

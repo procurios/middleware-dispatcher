@@ -4,8 +4,8 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedMiddleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,7 +14,7 @@ use Psr\Http\Middleware\DelegateInterface;
 /**
  *
  */
-class CallableBasedMiddlewareTest extends PHPUnit_Framework_TestCase
+class CallableBasedMiddlewareTest extends TestCase
 {
     /**
      * @dataProvider provideCallbacks
