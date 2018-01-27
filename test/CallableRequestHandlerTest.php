@@ -13,7 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableRequestHandlerTest extends TestCase
 {
-    public function testThatCallableDelegatePassesNextCallToTargetDelegate(): void
+    public function testThatCallableDelegatePassesNextCallToTargetDelegate()
     {
         /** @var ServerRequestInterface $request */
         $request = $this->createMock(ServerRequestInterface::class);

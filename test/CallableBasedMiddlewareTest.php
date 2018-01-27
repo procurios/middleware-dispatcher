@@ -16,7 +16,7 @@ class CallableBasedMiddlewareTest extends TestCase
     /**
      * @dataProvider provideCallbacks
      */
-    public function testThatCallableIsSupported(callable $callable): void
+    public function testThatCallableIsSupported(callable $callable)
     {
         /** @var ServerRequestInterface $request */
         $request = $this->createMock(ServerRequestInterface::class);
@@ -35,7 +35,7 @@ class CallableBasedMiddlewareTest extends TestCase
         $this->assertSame($response, $middleware->process($request, $delegate));
     }
 
-    public function testThatContainsWillReturnTrueForIdenticalCallback(): void
+    public function testThatContainsWillReturnTrueForIdenticalCallback()
     {
         $callback = function () {};
         $otherCallback = function () {};
