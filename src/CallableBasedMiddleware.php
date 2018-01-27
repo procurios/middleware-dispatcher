@@ -24,11 +24,7 @@ class CallableBasedMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        return \call_user_func(
-            $this->callback,
-            $request,
-            new CallableRequestHandler($handler)
-        );
+        return ($this->callback)($request, new CallableRequestHandler($handler));
     }
 
     /**

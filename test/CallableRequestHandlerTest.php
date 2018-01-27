@@ -48,6 +48,6 @@ class CallableRequestHandlerTest extends TestCase
             ->willReturn($response)
         ;
 
-        $this->assertSame($response, \call_user_func(new CallableRequestHandler($delegate), $request));
+        $this->assertSame($response, (new CallableRequestHandler($delegate))($request));
     }
 }
