@@ -9,9 +9,6 @@ use Procurios\Http\MiddlewareDispatcher\CallableBasedDelegate;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- *
- */
 class CallableBasedDelegateTest extends TestCase
 {
     public function testThatCallableBasedDelegateCallsCallable()

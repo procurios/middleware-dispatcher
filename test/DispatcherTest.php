@@ -15,9 +15,6 @@ use Psr\Http\Middleware\DelegateInterface;
 use Psr\Http\Middleware\MiddlewareInterface;
 use ReflectionObject;
 
-/**
- *
- */
 class DispatcherTest extends TestCase
 {
     public function testThatEveryMiddlewareIsCalledInTheRightOrder()

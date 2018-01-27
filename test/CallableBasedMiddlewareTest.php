@@ -11,9 +11,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Middleware\DelegateInterface;
 
-/**
- *
- */
 class CallableBasedMiddlewareTest extends TestCase
 {
     /**

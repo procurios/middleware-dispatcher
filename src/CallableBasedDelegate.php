@@ -7,9 +7,6 @@ namespace Procurios\Http\MiddlewareDispatcher;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Middleware\DelegateInterface;
 
-/**
- *
- */
 class CallableBasedDelegate implements DelegateInterface
 {
     /** @var callable */

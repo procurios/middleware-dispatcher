@@ -10,9 +10,6 @@ use Psr\Http\Middleware\MiddlewareInterface;
 use Psr\Http\Middleware\ServerMiddlewareInterface;
 use Psr\Http\Middleware\StackInterface;
 
-/**
- *
- */
 final class Dispatcher implements StackInterface
 {
     /** @var ServerMiddlewareInterface[]|ClientMiddlewareInterface[] */
