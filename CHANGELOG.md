@@ -31,3 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1] - 2017-02-01
 ### Added
 - First release based on the PSR-15 draft.
+
+[Unreleased]: https://github.com/procurios/middleware-dispatcher/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/procurios/middleware-dispatcher/compare/0.1...1.0.0
+[0.1]: https://github.com/procurios/middleware-dispatcher/commits/0.1
