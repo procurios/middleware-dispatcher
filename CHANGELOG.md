@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - .gitattributes file limiting the files that will be exported to composer
 
+### Removed
+- PSR-4 namespace for virtual psr/http-middleware package
+
 ## [1.0.1] - 2018-01-29
 ### Added
 - Keep a Changelog changelog

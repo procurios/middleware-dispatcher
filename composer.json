@@ -16,8 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Procurios\\Http\\MiddlewareDispatcher\\": "src/",
-      "Psr\\Http\\Middleware\\": "psr/http-middleware/"
+      "Procurios\\Http\\MiddlewareDispatcher\\": "src/"
     }
   },
   "require-dev": {
