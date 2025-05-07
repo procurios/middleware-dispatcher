@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - .gitattributes file limiting the files that will be exported to composer
 
+### Changed
+- Depend on PHP >= 8.0
+
 ### Removed
 - PSR-4 namespace for virtual psr/http-middleware package
 

@@ -206,7 +206,7 @@ class DispatcherTest extends TestCase
         array &$callLog,
         ServerRequestInterface $expectedRequest,
         ResponseInterface $expectedResponse,
-        ResponseInterface $responseToReturn = null
+        ?ResponseInterface $responseToReturn = null
     ): MiddlewareInterface {
         return new CallableBasedMiddleware(
             $this->createCallback($identifier, $callLog, $expectedRequest, $expectedResponse, $responseToReturn)
@@ -218,7 +218,7 @@ class DispatcherTest extends TestCase
         array &$callLog,
         ServerRequestInterface $expectedRequest,
         ResponseInterface $expectedResponse,
-        ResponseInterface $responseToReturn = null
+        ?ResponseInterface $responseToReturn = null
     ): callable {
         return function (ServerRequestInterface $request, RequestHandlerInterface $frame) use (
             $identifier,
