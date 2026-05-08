@@ -4,8 +4,9 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,20 +14,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableBasedMiddlewareTest extends TestCase
 {
-    /**
-     * @dataProvider provideCallbacks
-     */
+    #[DataProvider('provideCallbacks')]
     public function testThatCallableIsSupported(callable $callable)
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        /** @var MockObject|RequestHandlerInterface $delegate */
         $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('handle')
             ->willReturn($response)
         ;
@@ -46,7 +45,7 @@ class CallableBasedMiddlewareTest extends TestCase
         $this->assertFalse($middleware->contains($otherCallback));
     }
 
-    public function provideCallbacks(): array
+    public static function provideCallbacks(): array
     {
         return [
             'callable next and no type hints' => [

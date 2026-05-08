@@ -4,8 +4,8 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Procurios\Http\MiddlewareDispatcher\CallableBasedMiddleware;
 use Procurios\Http\MiddlewareDispatcher\Dispatcher;
 use Psr\Http\Message\ResponseInterface;
@@ -19,11 +19,11 @@ class DispatcherTest extends TestCase
     public function testThatEveryMiddlewareIsCalledInTheRightOrder()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $expectedResponse */
-        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $expectedResponse = $this->createStub(ResponseInterface::class);
         /** @var RequestHandlerInterface $fallbackHandler */
-        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createStub(RequestHandlerInterface::class);
 
         $callLog = [];
         $dispatcher = (new Dispatcher($fallbackHandler))
@@ -40,11 +40,11 @@ class DispatcherTest extends TestCase
     public function testThatEveryMiddlewareDispatcherCanProcessMultipleTimes()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         /** @var RequestHandlerInterface $fallbackHandler */
-        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createStub(RequestHandlerInterface::class);
 
         $callLog = [];
         $dispatcher = (new Dispatcher($fallbackHandler))
@@ -64,11 +64,11 @@ class DispatcherTest extends TestCase
     public function testThatMiddlewareCanBeRemoved()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         /** @var RequestHandlerInterface $fallbackHandler */
-        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createStub(RequestHandlerInterface::class);
 
         $callLog = [];
         $middlewareBar = $this->createMiddleware('bar', $callLog, $request, $response);
@@ -111,10 +111,10 @@ class DispatcherTest extends TestCase
     public function testThatAnEmptyQueueCallsTheFallbackHandler()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
-        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $fallbackHandler */
+        $response = $this->createStub(ResponseInterface::class);
+        /** @var MockObject|RequestHandlerInterface $fallbackHandler */
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
 
         $fallbackHandler->expects($this->once())
@@ -129,10 +129,10 @@ class DispatcherTest extends TestCase
     public function testThatADispatcherWithoutMiddlewareThatCreatesAResponseCallsTheFallbackHandler()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
-        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $fallbackHandler */
+        $response = $this->createStub(ResponseInterface::class);
+        /** @var MockObject|RequestHandlerInterface $fallbackHandler */
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
 
         $fallbackHandler->expects($this->once())
@@ -154,11 +154,11 @@ class DispatcherTest extends TestCase
     public function testThatMiddlewareAfterResponseCreatingMiddlewareWillNotBeCalled()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         /** @var RequestHandlerInterface $fallbackHandler */
-        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createStub(RequestHandlerInterface::class);
 
         $callLog = [];
         $dispatcher = (new Dispatcher($fallbackHandler))
@@ -177,11 +177,11 @@ class DispatcherTest extends TestCase
         $foo = new CallableBasedMiddleware(function ($request, $next) {return $next($request);});
         $bar = new CallableBasedMiddleware(function ($request, $next) {return $next($request);});
 
-        $baz = function () {return $this->createMock(ResponseInterface::class);};
+        $baz = function () {return $this->createStub(ResponseInterface::class);};
         $qux = function () {};
 
         /** @var RequestHandlerInterface $fallbackHandler */
-        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createStub(RequestHandlerInterface::class);
 
         $dispatcher = (new Dispatcher($fallbackHandler))
             ->withMiddleware($foo)
@@ -195,7 +195,7 @@ class DispatcherTest extends TestCase
         $dispatcher->withoutMiddleware($foo);
         $dispatcher->withoutCallback($baz);
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $dispatcher->handle($request);
 
         $this->assertSame($currentState, $this->getCurrentState($dispatcher));

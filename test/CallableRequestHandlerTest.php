@@ -4,8 +4,8 @@
  */
 namespace Procurios\Http\MiddlewareDispatcher\test;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject;
 use Procurios\Http\MiddlewareDispatcher\CallableRequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,11 +16,11 @@ class CallableRequestHandlerTest extends TestCase
     public function testThatCallableDelegatePassesNextCallToTargetDelegate()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        /** @var MockObject|RequestHandlerInterface $delegate */
         $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
             ->expects($this->once())
@@ -35,11 +35,11 @@ class CallableRequestHandlerTest extends TestCase
     public function testThatCallableDelegatePassesDirectInvocationToTargetDelegate()
     {
         /** @var ServerRequestInterface $request */
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|RequestHandlerInterface $delegate */
+        /** @var MockObject|RequestHandlerInterface $delegate */
         $delegate = $this->createMock(RequestHandlerInterface::class);
         $delegate
             ->expects($this->once())

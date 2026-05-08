@@ -14,9 +14,9 @@ class CallableBasedRequestHandlerTest extends TestCase
     public function testThatCallableBasedDelegateCallsCallable()
     {
         /** @var ServerRequestInterface $expectedRequest */
-        $expectedRequest = $this->createMock(ServerRequestInterface::class);
+        $expectedRequest = $this->createStub(ServerRequestInterface::class);
         /** @var ResponseInterface $response */
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
         $isCalled = false;
         $callback = function (ServerRequestInterface $request) use ($response, $expectedRequest, &$isCalled) {
