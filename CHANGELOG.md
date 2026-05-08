@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Updated psr/http-message to ^1.0 || ^2.0
+
 ## [2.0.0] - 2025-05-07
 ### Added
 - .gitattributes file limiting the files that will be exported to composer
